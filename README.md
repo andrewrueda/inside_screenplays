@@ -88,7 +88,7 @@ it to add it to the database:
 
 ### App
 The app was created in Streamlit. It connects to a text processing pipeline
-that includes PDF to TXT (using ```pdftotext```), TXT to JSON (using ```ScreenPy```),
+that includes PDF to TXT (using ```pdftotext```), TXT to JSON (using [ScreenPy](https://github.com/drwiner/ScreenPy),
 ```read_script.py``` which parses the json-structured screenplay information
 for character lines and interaction, and ```build_graph.py``` which builds the
 graph and manages the movies in the database (```movie_catalog.h5``` with ```h5Py```).
