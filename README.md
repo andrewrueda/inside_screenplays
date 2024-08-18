@@ -69,7 +69,7 @@ movies are returned.
 <figure style="display: inline-block; margin-right: 0px; text-align: left;">
   <img alt="nodes.png" height="500" src="screenshots/nodes.png" width="550"/>
   <figcaption>Information for HARRY in Dumb and Dumber</figcaption>
-</figure><br/>
+</figure><br/><br/>
 
 <figure style="display: inline-block; margin-right: 0px; text-align: left;">
   <img alt="similar_movies.png" height="400" src="screenshots/similar_movies.png" width="600"/>
