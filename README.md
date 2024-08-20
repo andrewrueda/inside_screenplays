@@ -49,12 +49,12 @@ information from the database (an H5Py file) and display the graph.
     <td>
       <img alt="page1.png" height="300" src="screenshots/page1.png" width="400"/>
       <br>
-      <figcaption>Home screen</figcaption>
+      <figcaption><em>Home screen</em></figcaption>
     </td>
     <td>
       <img alt="page2.png" height="300" src="screenshots/page2.png" width="400"/>
       <br>
-      <figcaption>Graph for selected movie</figcaption>
+      <figcaption><em>Graph for selected movie</em></figcaption>
     </td>
   </tr>
 </table>
@@ -68,20 +68,20 @@ movies are returned.
 
 <figure style="display: inline-block; margin-right: 0px; text-align: left;">
   <img alt="nodes.png" height="500" src="screenshots/nodes.png" width="550"/>
-  <figcaption>Information for HARRY in Dumb and Dumber</figcaption>
+  <figcaption><em>Information for HARRY in Dumb and Dumber</em></figcaption>
 </figure><br/><br/>
 
 <figure style="display: inline-block; margin-right: 0px; text-align: left;">
   <img alt="similar_movies.png" height="400" src="screenshots/similar_movies.png" width="600"/>
-  <figcaption>Similar movies to Dumb and Dumber by <code>protagonist_edges</code> and <code>edges_among_leads</code> similarity functions.</figcaption>
-</figure><br/>
+  <figcaption><em>Similar movies to Dumb and Dumber by <code>protagonist_edges</code> and <code>edges_among_leads</code> similarity functions.</em></figcaption>
+</figure><br/><br/>
 
 If you want to use your own PDF or TXT, drop it in and get a new graph. You can then save
 it to add it to the database:
 
 <figure style="display: inline-block; margin-right: 0px; text-align: left;">
   <img alt="add_movie.png" height="500" src="screenshots/add_movie.png" width="600"/>
-  <figcaption>Save movie to database</figcaption>
+  <figcaption><em>Save movie to database</em></figcaption>
 </figure>
 
 ## Details
@@ -89,9 +89,25 @@ it to add it to the database:
 ### App
 The app was created in Streamlit. It connects to a text processing pipeline
 that includes PDF to TXT (using ```pdftotext```), TXT to JSON (using [ScreenPy](https://github.com/drwiner/ScreenPy)),
-```read_script.py``` which parses the json-structured screenplay information
+```read_script.py``` which parses the JSON-structured screenplay information
 for character lines and interaction, and ```build_graph.py``` which builds the
 graph and manages the movies in the database (```movie_catalog.h5``` with ```h5Py```).
+
+### Pipeline
+
+When a new PDF file is added, ```pdf_to_txt.py``` uses the ```pdftotext``` package to read the PDF into a ```StringIO``` text buffer.
+Then, that screenplay text is parsed into a JSON-structure using ```screenpile.py``` from the ScreenPy package, which identifies scenes,
+segments, and segment types, including when a character is speaking.
+
+This parsed screenplay information is passed into ```read_script.py```, which uses the scene and character dialogue information
+to track scene co-occurences (if two characters speak in the same scene, the weight of the edge between them is incremented by 1).
+The lines of each character are also put through NLTK's ```SentimentIntensityAnalyser``` to calculate their sentiment polarity.
+
+The movie's character list, polarity scores, and scene co-occurrence adjacency matrix are returned, and passed through ```build_graph```,
+which computes the network centralities for each character and includes this information in a corresponding ```pyvis``` graph.
+
+Data for each movie is stored in an h5 file; when a user selects a movie from the database, the character list, polarities, and
+adjacency matrix are retrieved to re-build the graph and display in the app.
 
 ### Graph Data
 
@@ -129,9 +145,9 @@ which have a high similarity when using ```edges_among_leads```:
 
 <figure style="display: inline-block; margin-right: 0px; text-align: left;">
   <img alt="rushhour2.png" height="500" src="screenshots/rushhour2.png" width="750"/>
-  <figcaption>Comparison between <b>Dumber and Dumber</b> and
+  <figcaption><em>Comparison between <b>Dumber and Dumber</b> and
 <b>Rush Hour 2</b>,
-which have a low distance score of <code>0.0264</code>.</figcaption>
+which have a low distance score of <code>0.0264</code>.</em></figcaption>
 </figure>
 
 
